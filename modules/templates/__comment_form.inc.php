@@ -25,11 +25,6 @@
 
 
 
-<div class="field">
-    <input class="form-control" id="exampleFormControlInput1" type="date" id="comment_uploaded" name="uploaded[]" value="<?= $form['uploaded'][0] ?>">
-    <input class="form-control" id="exampleFormControlInput1"type="time" name="uploaded[]" value="<?= $form['uploaded'][1] ?>">
-</div>
-
 <!-- <span class="input-group-text">Прикрепите изображение</span>
 <input class="form-control" type="file" id="formFile">
 
