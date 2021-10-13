@@ -5,11 +5,15 @@
   <div class="container">
     <h1 class="mt-5"><?= $artic['title'] ?></h1>
     <p class="lead"><?= $artic['description'] ?></p>
-    <p><?= $artic['user_name'] . ' | ' . \Helpers\get_formatted_timestamp($artic['uploaded']) ?></p>
+    <div style="display: flex; justify-content: space-between;">
+      <p><?= \Helpers\get_formatted_timestamp($artic['uploaded']) ?></p>
+      <p><?= $artic['user_name'] ?></p>
+    </div>
+
   </div>
 </main>
 
-<div class="container">
+<!-- <div class="container">
 <form class="w-25">
 
 <h1 class="mt-5">Отправить комментарий</h1>
@@ -29,7 +33,9 @@
 <button type="submit" class="btn btn-primary">Отправить</button>
 
 </form>
-</div>
+</div> -->
+
+<?php require \Helpers\get_fragment_path('__comment_form') ?>
 
 <div class="container">
 <div class="w-25">

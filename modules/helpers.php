@@ -35,4 +35,13 @@ namespace Helpers {
         return strftime('%d.%m.%Y %H:%M:%S', strtotime($timestamp));
     }
 
+    function redirect (string $url, int $status = 302) {
+        header('Location: ' . $url, TRUE, $status);
+    }
+
+    function show_errors(string $fld_name, array $form_data) {
+        if (isset($form_data['__errors'][$fld_name]))
+            echo '<div><span style="color: red;">' . $form_data['__errors'][$fld_name] . '</span></div>';
+    }
+
 }

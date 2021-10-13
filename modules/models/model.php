@@ -119,4 +119,55 @@ class Model implements \Iterator {
         else 
             throw new \Page404Exception();
     }
+
+    protected function before_insert(&$fields) {
+
+    }
+
+    function insert($fields) {
+        static::before_insert($fields);
+        $s = 'INSERT INTO ' . static::TABLE_NAME;
+        $s2 = $s1 = '';
+        foreach ($fields as $n => $v) {
+            if ($s1) {
+                $s1 .= ', ';
+                $s2 .= ', ';
+            }
+            $s1 .= $n;
+            $s2 .= ':' . $n;
+        }
+        $s .= ' (' . $s1 . ') VALUES (' . $s2 . ');';
+        $this->run($s, $fields);
+        $id = self::$connection->lastInsertId();
+        return $id;
+    }
+
+    protected function before_update(&$fields, $value, $key_field = 'id') {
+
+    }
+
+    function update($fields, $value, $key_field = 'id') {
+        static::before_update($fields, $value, $key_field);
+        $s = 'UPDATE ' . static::TABLE_NAME . ' SET ';
+        $s1 = '';
+        foreach ($fields as $n => $v) {
+            if ($s1)
+                $s1 .= ', ';
+            $s1 .= $n . ' = :' . $n;
+        }
+        $s .= $s1 . ' WHERE ' . $key_field . ' = :__key;';
+        $fields['__key'] = $value;
+        $this->run($s, $fields);
+    }
+
+    protected function before_delete($value, $key_field = 'id') {
+
+    }
+
+    function detele($value, $key_field = 'id') {
+        static::before_delete($value, $key_field);
+        $s = 'DELETE FROM ' . static::TABLE_NAME;
+        $s .= ' WHERE ' . $key_field . ' = ?;';
+        $this->run($s, [$value]);
+    }
 }

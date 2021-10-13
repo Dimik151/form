@@ -26,6 +26,19 @@ class Articles extends BaseController {
     }
 
     function item(int $index) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $comment_form = \Forms\Comment::get_normalized_data($_POST);
+            if (!isset($comment_form['__errors'])) {
+                $comment_form = \Forms\Comment::get_prepared_data($comment_form);
+                $comment_form['article'] = $index;
+                $comments = new \Models\Comment();
+                $comments->insert($comment_form);
+                \Helpers\redirect('/' . $index . \Helpers\get_GET_params(['page', 'filter', 'ref']));
+            }
+        } else 
+            $comment_form = \Forms\Comment::get_initial_data(['uploaded' => time()]);
+        $users = new \Models\User();
+        $users->select('*', NULL, '', NULL, 'name');
         $artics = new \Models\Artic();
         $artic = $artics->get_or_404($index, 'articles.id', 'articles.id, title, ' .
             'description, filename, uploaded, users.name AS user_name, ' .
@@ -36,7 +49,7 @@ class Articles extends BaseController {
         $comments = new \Models\Comment();
         $comments->select('comments.id, content, users.name AS user_name, ' .
             'uploaded', ['users'], 'article = ?', [$index], '');
-        $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'comment' => $comments];
+        $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'comment' => $comments, 'form' => $comment_form, 'users' => $users];
         $this->render('item', $ctx);
     }
 
