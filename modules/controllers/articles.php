@@ -36,7 +36,7 @@ class Articles extends BaseController {
                 \Helpers\redirect('/' . $index . \Helpers\get_GET_params(['page', 'filter', 'ref']));
             }
         } else 
-            $comment_form = \Forms\Comment::get_initial_data(['uploaded' => time()]);
+            $comment_form = \Forms\Comment::get_initial_data();
         $users = new \Models\User();
         $users->select('*', NULL, '', NULL, 'name');
         $artics = new \Models\Artic();
