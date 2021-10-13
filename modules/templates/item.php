@@ -55,8 +55,8 @@
     <p><?= \Helpers\get_formatted_timestamp($comm['uploaded']) ?></p>
     <?php $u1 = '/' . $artic['id'] . '/comments/' . $comm['id'] ?>
     <p>
-      <a href="<?= $u1 . '/edit' . $u2 ?>">Исправить</a>
-      <a href="<?= $u1 . '/delete' . $u2 ?>">Удалить</a>
+      <a class="btn btn-primary" href="<?= $u1 . '/edit' . $u2 ?>">Исправить</a>
+      <a class="btn btn-primary" href="<?= $u1 . '/delete' . $u2 ?>">Удалить</a>
     </p>
     <hr>
     <?php } ?>
