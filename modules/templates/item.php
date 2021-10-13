@@ -36,6 +36,7 @@
 </div> -->
 
 <?php require \Helpers\get_fragment_path('__comment_form') ?>
+<?php $u2 = \Helpers\get_GET_params(['page', 'filter', 'ref']) ?>
 
 <div class="container">
 <div class="w-25">
@@ -52,6 +53,11 @@
     <h3 class="mt-3"><?= $comm['user_name'] ?></h3>
     <p class="lead"><?= $comm['content'] ?></p>
     <p><?= \Helpers\get_formatted_timestamp($comm['uploaded']) ?></p>
+    <?php $u1 = '/' . $artic['id'] . '/comments/' . $comm['id'] ?>
+    <p>
+      <a href="<?= $u1 . '/edit' . $u2 ?>">Исправить</a>
+      <a href="<?= $u1 . '/delete' . $u2 ?>">Удалить</a>
+    </p>
     <hr>
     <?php } ?>
 
