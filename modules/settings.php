@@ -9,4 +9,6 @@ namespace Settings{
     const DB_PASSWORD = 'root';
 
     const RECORD_ON_PAGE = 3;
+
+    const IMAGE_FILE_PATH = 'images\\';
 }

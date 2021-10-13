@@ -44,4 +44,31 @@ namespace Helpers {
             echo '<div><span style="color: red;">' . $form_data['__errors'][$fld_name] . '</span></div>';
     }
 
+    function get_filename (array $file) : string {
+        global $base_path;
+        $image_file_path = $base_path . \Settings\IMAGE_FILE_PATH;
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $name = strftime('%Y%m%d%H%M');
+        $postfix = '';
+        $number = 0;
+        while (file_exists($image_file_path . $name . $postfix . '.' . $ext))
+            $postfix = '__' . ++$number;
+        return $name . $postfix . '.' . $ext;
+    }
+
+    function save_file (array $file) : string {
+        global $base_path;
+        $image_file_path = $base_path . \Settings\IMAGE_FILE_PATH;
+        $filename = get_filename($file);
+        move_uploaded_file($file['tmp_name'], $image_file_path . $filename);
+        return $filename;
+    }
+
+    function delete_file (string $filename) {
+        global $base_path;
+        $file_path = $base_path . \Settings\IMAGE_FILE_PATH . $filename;
+        if (file_exists($file_path))
+            unlink($file_path);
+    }
+
 }

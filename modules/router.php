@@ -19,6 +19,9 @@ if (preg_match('/^cats\/(\w+)$/', $request_path, $result) === 1){
     $index = (integer)$result[1];
     $ctr = new \Controllers\Articles();
     $ctr->item($index);
+}else if (preg_match('/users\/(\w+)\/pictures\/add$/', $request_path, $result) === 1){
+    $ctr = new \Controllers\Articles();
+    $ctr->add($result[1]);
 }else if (preg_match('/^(\d+)\/comments\/(\d+)\/edit$/', $request_path, $result) === 1){
     $article_index = (integer)$result[1];
     $comment_index = (integer)$result[2];

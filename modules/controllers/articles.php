@@ -111,4 +111,24 @@ class Articles extends BaseController {
         $ctx = ['user' => $use, 'artic' => $artics, 'paginator' => $paginator];
         $this->render('by_user', $ctx);
     }
+
+    function add(string $username) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $picture_form = \Forms\Picture::get_normalized_data($_POST);
+            if (!isset($picture_form['__errors'])) {
+                $picture_form = \Forms\Picture::get_prepared_data($picture_form);
+                $users = new \Models\User();
+                $user = $users->get_or_404($username, 'name', 'id');
+                $picture_form['user'] = $user['id'];
+                $articles = new \Models\Artic();
+                $articles->insert($picture_form);
+                \Helpers\redirect('/users/' . $username);
+            }
+        } else 
+            $picture_form = \Forms\Picture::get_initial_data();
+        $categories = new \Models\Category();
+        $categories->select();
+        $ctx = ['site_title' => 'Добавление изображения', 'username' => $username, 'form' => $picture_form, 'categories' => $categories];
+        $this->render('picture_add', $ctx);
+    }
 }
