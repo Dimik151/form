@@ -33,22 +33,7 @@
         </div>
 
     <?php } ?>
-    <!-- <div class="col">
-          <div class="card shadow-sm">
-          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
 
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div> -->
     </div>
     <?php require \Helpers\get_fragment_path('__paginator') ?>
     </div>
@@ -57,48 +42,3 @@
   </main>
 
 <?php require \Helpers\get_fragment_path('__footer'); ?>
-
-
-
-
-
-
-
-
-<?php
-
-
-// // Слово наоборот
-// $str = 'Programming';
-// $cnt = strlen($str);
-
-// $i = -1;
-
-// while ($str) {
-//     if ($cnt == 0){
-//         break;
-//     }
-//     $result .= $str[$i--];
-//     $cnt--;
-// }
-// echo $result;
-
-
-
-// // Склонения по падежу
-// $ins = 4;
-
-// $is = (string) $ins;
-// if(strpos($is, '.') !== FALSE || (strlen($is) > 1 && $is[-2] == '1'))
-//     $ins_ending = 'ов';
-// else{
-//     $is = $is[-1];
-//     if ($is == 1)
-//         $ins_ending = '';
-//     else if ($is >= 2 && $is <= 4)
-//         $ins_ending = 'a';
-//     else
-//         $ins_ending = 'ов';
-// }
-
-// echo "<p>{$ins} дюйм{$ins_ending} </p>";
