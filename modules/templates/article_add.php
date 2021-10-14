@@ -1,9 +1,12 @@
 <?php require \Helpers\get_fragment_path('__header') ?>
 
-<h2>Добавление изображения</h2>
+<div class="container w-50">
 
-<?php require \Helpers\get_fragment_path('__picture_form') ?>
+<h2>Добавление Статьи</h2>
+
+<?php require \Helpers\get_fragment_path('__article_form') ?>
 
 <?php $ret = '/users/' . $username . \Helpers\get_GET_params(['page', 'filter']) ?>
 
+</div>
 <?php require \Helpers\get_fragment_path('__footer') ?>

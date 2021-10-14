@@ -1,4 +1,5 @@
 <?php require \Helpers\get_fragment_path('__header'); ?>
+<?php $gets = \Helpers\get_GET_params(['page'], ['ref' => 'item']) ?>
 
 
 <main class="flex-shrink-0">
@@ -9,7 +10,10 @@
       <p><?= \Helpers\get_formatted_timestamp($artic['uploaded']) ?></p>
       <p><?= $artic['user_name'] ?></p>
     </div>
-
+    <div style="display: flex; justify-content: space-between">
+      <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $artic['user_name'] . '/articles/' . $artic['id'] . '/edit' . $gets ?>">Изменить статью</a></p>
+      <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $artic['user_name'] . '/articles/' . $artic['id'] . '/delete' . $gets ?>">Удалить статью</a></p>
+    </div>
   </div>
 </main>
 
@@ -17,6 +21,7 @@
 <?php $u2 = \Helpers\get_GET_params(['page', 'filter', 'ref']) ?>
 
 <div class="container">
+<form action="" method="POST">
 <div class="w-25">
     <h1 class="mt-5">Комментарии</h1>
     <span class="input-group-text">Упорядочить</span>
@@ -27,6 +32,7 @@
     </select>
     <input class="btn btn-primary" type="button" value="Показать">
     </div>
+    </form>
     <?php foreach ($comment as $comm) { ?>
     <h3 class="mt-3"><?= $comm['user_name'] ?></h3>
     <p class="lead"><?= $comm['content'] ?></p>

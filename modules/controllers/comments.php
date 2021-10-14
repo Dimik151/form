@@ -27,7 +27,7 @@ class Comments extends BaseController {
     function delete(int $article_index, int $comment_index) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $comments = new \Models\Comment();
-            $comments->detele($comment_index);
+            $comments->delete($comment_index);
             \Helpers\redirect('/' . $article_index . \Helpers\get_GET_params(['page', 'filter', 'ref']));
         }else {
             $comments = new \Models\Comment();

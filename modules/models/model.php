@@ -164,7 +164,7 @@ class Model implements \Iterator {
 
     }
 
-    function detele($value, $key_field = 'id') {
+    function delete($value, $key_field = 'id') {
         static::before_delete($value, $key_field);
         $s = 'DELETE FROM ' . static::TABLE_NAME;
         $s .= ' WHERE ' . $key_field . ' = ?;';

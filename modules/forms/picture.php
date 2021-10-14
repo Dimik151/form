@@ -5,7 +5,7 @@ namespace Forms;
 class Picture extends \Forms\Form {
     protected const FIELDS = [
         'title' => ['type' => 'string'],
-        'description' => ['type' => 'string', 'optional' => TRUE],
+        'description' => ['type' => 'string'],
         'category' => ['type' => 'integer']
     ];
 

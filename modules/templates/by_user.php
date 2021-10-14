@@ -21,10 +21,15 @@
       <?php } ?>
       <?php require \Helpers\get_fragment_path('__paginator') ?>
   </div>
-  <div>
-    <p><a href="<?= '/users/' . $user['name'] . '/pictures/add' . $gets ?>">Добавить изображение</a></p>
-  </div>
+
+<div>
+  <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $user['name'] . '/articles/add' . $gets ?>">Добавить статью</a></p>
+</div>
+
 </div>
 </main>
 
 <?php require \Helpers\get_fragment_path('__footer'); ?>
+
+
+
