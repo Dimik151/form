@@ -1,20 +1,6 @@
 <?php require \Helpers\get_fragment_path('__header'); ?>
 <?php $gets = \Helpers\get_GET_params(['page'], ['ref' => 'item']) ?>
 
-<?php 
-// if (isset($_GET['sort']) && !empty($_GET['sort']))
-//     $mediaType = $_GET['sort'];
-// else 
-//     $mediaType = 'uploaded';
-
-// function mediaSelected($type) {
-//     global $mediaType;
-//     if ($mediaType == $type)
-//         echo "selected"; 
-// }
-
-?>
-
 <main class="flex-shrink-0">
     <div class="container">
         <h1 class="mt-5"><?= $artic['title'] ?></h1>
