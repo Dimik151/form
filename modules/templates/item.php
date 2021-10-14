@@ -1,6 +1,20 @@
 <?php require \Helpers\get_fragment_path('__header'); ?>
 <?php $gets = \Helpers\get_GET_params(['page'], ['ref' => 'item']) ?>
 
+<?php 
+// if (isset($_GET['sort']) && !empty($_GET['sort']))
+//     $mediaType = $_GET['sort'];
+// else 
+//     $mediaType = 'uploaded';
+
+// function mediaSelected($type) {
+//     global $mediaType;
+//     if ($mediaType == $type)
+//         echo "selected"; 
+// }
+
+?>
+
 <main class="flex-shrink-0">
     <div class="container">
         <h1 class="mt-5"><?= $artic['title'] ?></h1>
@@ -20,16 +34,15 @@
 <?php $u2 = \Helpers\get_GET_params(['page', 'filter', 'ref']) ?>
 
 <div class="container">
-    <form action="" method="POST">
+    <form action="" method="GET">
         <div class="w-25">
             <h1 class="mt-5">Комментарии</h1>
             <span class="input-group-text">Упорядочить</span>
-            <select class="form-select" aria-label="Default select example">
-                <option selected>По дате добавления</option>
-                <option value="1">По имени</option>
-                <option value="2">По E-mail</option>
+            <select class="form-select" name='sort'>
+                <option value="uploaded" <?= $save['uploaded'] ?>>По дате добавления</option>
+                <option value="users" <?= $save['users'] ?>>По имени</option>
             </select>
-            <input class="btn btn-primary" type="button" value="Показать">
+            <input class="btn btn-primary" type="submit" value="Показать">
         </div>
     </form>
     <?php foreach ($comment as $comm) { ?>
