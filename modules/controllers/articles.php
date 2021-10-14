@@ -48,10 +48,23 @@ class Articles extends BaseController {
             '(SELECT COUNT(*) FROM comments WHERE ' .
             'comments.article = articles.id) AS comment_count',
             ['users', 'categories']);
+        if (isset($_GET['sort']) && !empty($_GET['sort'])) {
+            switch ($_GET['sort']) {
+                case 'uploaded' :
+                    $w = 'uploaded DESC';
+                    $s['uploaded'] = 'selected';
+                    break;
+                case 'users' :
+                    $w = 'user_name';
+                    $s['users'] = 'selected';
+                    break;
+            }
+        }else 
+            $w = 'uploaded DESC';
         $comments = new \Models\Comment();
         $comments->select('comments.id, content, users.name AS user_name, ' .
-            'uploaded', ['users'], 'article = ?', [$index], '');
-        $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'comment' => $comments, 'form' => $comment_form, 'users' => $users];
+            'uploaded', ['users'], 'article = ?', [$index], $w);
+        $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'comment' => $comments, 'form' => $comment_form, 'users' => $users, 'save' => $s];
         $this->render('item', $ctx);
     }
 

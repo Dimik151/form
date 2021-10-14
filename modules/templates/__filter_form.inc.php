@@ -6,6 +6,6 @@
 ?>
 
 <form style="display: flex" method="GET">
-          <input type="search" class="form-control form-control-dark" placeholder="Поиск..." aria-label="Search" name='filter' value="<?= $f ?>">
-          <input type="submit" class="btn btn-outline-light me-2" value="Поиск">
+    <input type="search" class="form-control form-control-dark" placeholder="Поиск..." aria-label="Search" name='filter' value="<?= $f ?>">
+    <input type="submit" class="btn btn-outline-light me-2" value="Поиск">
 </form>
