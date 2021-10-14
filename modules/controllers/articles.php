@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Models\Model;
+
 class Articles extends BaseController {
 
     function list () {
@@ -129,6 +131,50 @@ class Articles extends BaseController {
         $categories = new \Models\Category();
         $categories->select();
         $ctx = ['site_title' => 'Добавление изображения', 'username' => $username, 'form' => $picture_form, 'categories' => $categories];
-        $this->render('picture_add', $ctx);
+        $this->render('article_add', $ctx);
     }
+
+    function edit(int $index, string $username) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $picture_form = \Forms\Picture::get_normalized_data($_POST);
+            if (!isset($picture_form['__errors'])) {
+                $picture_form = \Forms\Picture::get_prepared_data($picture_form);
+                $users = new \Models\User();
+                $user = $users->get_or_404($username, 'name', 'id');
+                $picture_form['user'] = $user['id'];
+                $articles = new \Models\Artic();
+                $articles->update($picture_form, $index);
+                \Helpers\redirect('/');
+            }
+        } else 
+            $articles = new \Models\Artic();
+            $article = $articles->get_or_404($index);
+            $picture_form = \Forms\Picture::get_initial_data($article);
+        $categories = new \Models\Category();
+        $categories->select();
+        
+        $ctx = ['site_title' => 'Редактирование статьи', 'form' => $picture_form, 'categories' => $categories];
+        $this->render('article_edit', $ctx);
+    }
+
+    function delete(int $index, string $username) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $articles = new \Models\Artic();
+            $articles->delete($index);
+            \Helpers\redirect('/');
+        }else {
+            $users = new \Models\User();
+            $users->select('*', NULL, '', NULL, 'name');
+            $artics = new \Models\Artic();
+            $artic = $artics->get_or_404($index, 'articles.id', 'articles.id, title, ' .
+                'description, filename, uploaded, users.name AS user_name, ' .
+                'categories.name AS cat_name, categories.slug, ' .
+                '(SELECT COUNT(*) FROM comments WHERE ' .
+                'comments.article = articles.id) AS comment_count',
+                ['users', 'categories']);
+            $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'users' => $users];
+            $this->render('article_delete', $ctx);
+        }
+    }
+
 }
