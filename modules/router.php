@@ -42,6 +42,12 @@ if (preg_match('/^cats\/(\w+)$/', $request_path, $result) === 1){
     $comment_index = (integer)$result[2];
     $ctr = new \Controllers\Comments();
     $ctr->delete($article_index, $comment_index);
+}else if ($request_path == 'login') {
+    $ctr = new \Controllers\Login();
+    $ctr->login();
+}else if ($request_path == 'logout') {
+    $ctr = new \Controllers\Login();
+    $ctr->logout();
 }else if ($request_path == '') {
     $ctr = new \Controllers\Articles();
     $ctr->list();

@@ -34,8 +34,21 @@
                 <li><a href="/cats/" class="nav-link px-2 text-secondary">Категории</a></li>
             </ul>
             <?php require \Helpers\get_fragment_path('__filter_form') ?>
+            <?php 
+                if ($__current_user['name1'] && $__current_user['name2'])
+                    $user_name = $__current_user['name1'] . ' ' . $__current_user['name2'];
+                else if ($__current_user['name1'])
+                    $user_name = $__current_user['name1'];
+                else 
+                    $user_name = $__current_user['name'];
+            ?>
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Вход</button>
+                <?php if ($__current_user) { ?>
+                    <a class="btn btn-outline-light me-2" href="/users/<?= $__current_user['name'] ?>"><?= $user_name ?></a>
+                    <a class="btn btn-outline-light me-2" href="/logout">Выйти</a>
+                <?php } else { ?>
+                    <a class="btn btn-outline-light me-2" href="/login">Войти</a>
+                <?php } ?>
                 <button type="button" class="btn btn-warning">Регистрация</button>
             </div>
         </div>

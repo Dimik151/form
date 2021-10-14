@@ -19,11 +19,12 @@
                         </a>
                     </div>
                 <?php } ?>
+                <div>
+                    <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $user['name'] . '/articles/add' . $gets ?>">Добавить статью</a></p>
+                </div>
                 <?php require \Helpers\get_fragment_path('__paginator') ?>
             </div>
-            <div>
-                <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $user['name'] . '/articles/add' . $gets ?>">Добавить статью</a></p>
-            </div>
+
         </div>
     </div>
 </main>

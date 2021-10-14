@@ -2,8 +2,7 @@
 
 <div class="container w-50">
     <h2>Удаление статьи</h2>
-    <main class="flex-shrink-0">
-        <div class="container">
+        <div>
             <h1 class="mt-5"><?= $artic['title'] ?></h1>
             <p class="lead"><?= $artic['description'] ?></p>
             <div style="display: flex; justify-content: space-between;">
@@ -11,7 +10,6 @@
                 <p><?= $artic['user_name'] ?></p>
             </div>
         </div>
-    </main>
     <form method="POST">
         <input class="btn btn-outline-secondary" type="submit" value="Удалить">
     </form>
