@@ -1,7 +1,6 @@
 <?php require \Helpers\get_fragment_path('__header') ?>
 
 <div class="container">
-<h2>Правка комментария</h2>
     <form class="w-25" method="POST">
         <h1 class="mt-5">Правка комментарий</h1>
         <span class="input-group-text">Имя</span>

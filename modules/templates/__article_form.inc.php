@@ -14,6 +14,7 @@
     <label class="form-label">Описание статьи</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"><?= $form['description'] ?></textarea>
     <?php \Helpers\show_errors('description', $form) ?>
+    <label class="form-label">Прикрепить изображение</label>
     <div class="input-group mb-3">
         <input type="file" class="form-control" name="picture">
         <?php \Helpers\show_errors('picture', $form) ?>
