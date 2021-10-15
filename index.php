@@ -11,11 +11,14 @@ function my_autoloader(string $class_name) {
 spl_autoload_register('my_autoloader');
 
 class Page404Exception extends Exception {}
+class Page403Exception extends Exception {}
 
 function exception_handler($e) {
     $ctr = new \Controllers\Error();
     if($e instanceof Page404Exception)
         $ctr->page404();
+    else if ($e instanceof Page403Exception)
+        $ctr->page403();
     else
         $ctr->page503($e);
 }
