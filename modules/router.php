@@ -42,6 +42,9 @@ if (preg_match('/^cats\/(\w+)$/', $request_path, $result) === 1){
     $comment_index = (integer)$result[2];
     $ctr = new \Controllers\Comments();
     $ctr->delete($article_index, $comment_index);
+}else if (preg_match('/^users\/(\w+)\/account\/delete$/', $request_path, $result) === 1) {
+    $ctr = new \Controllers\Account();
+    $ctr->delete($result[1]);
 }else if ($request_path == 'login') {
     $ctr = new \Controllers\Login();
     $ctr->login();
