@@ -32,4 +32,20 @@ class Login extends BaseController {
             $this->render('logout', $ctx);
         }
     }
+
+    function register() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $reg_form = \Forms\Register::get_normalized_data($_POST);
+        if (!isset($reg_form['__errors'])) {
+            $reg_form = \Forms\Register::get_prepared_data($reg_form);
+            $reg_form['active'] = TRUE;
+            $users = new \Models\User();
+            $users->insert($reg_form);
+            \Helpers\redirect('/login');
+        }
+        }else 
+            $reg_form = \Forms\Register::get_initial_data();
+        $ctx = ['form' => $reg_form, 'site_title' => 'Регистрация'];
+        $this->render('register', $ctx);
+    }
 }

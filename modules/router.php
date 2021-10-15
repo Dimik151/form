@@ -48,6 +48,9 @@ if (preg_match('/^cats\/(\w+)$/', $request_path, $result) === 1){
 }else if ($request_path == 'logout') {
     $ctr = new \Controllers\Login();
     $ctr->logout();
+}else if ($request_path == 'register') {
+    $ctr = new \Controllers\Login();
+    $ctr->register();
 }else if ($request_path == '') {
     $ctr = new \Controllers\Articles();
     $ctr->list();
