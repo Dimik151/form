@@ -6,6 +6,13 @@ use Models\Model;
 
 class Articles extends BaseController {
 
+    private function check_user(int $article_index) {
+        $articles = new \Models\Artic();
+        $article = $articles->get_or_404($article_index, 'id', 'user');
+        if (!($this->current_user && ($this->current_user['id'] == $article['user'] || $this->current_user['admin'])))
+            throw new \Page403Exception();
+    }
+
     function list () {
         $cats = new \Models\Category();
         $cats->select();
@@ -29,21 +36,22 @@ class Articles extends BaseController {
 
     function item(int $index) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!$this->current_user)
+                throw new \Page403Exception();
             $comment_form = \Forms\Comment::get_normalized_data($_POST);
             if (!isset($comment_form['__errors'])) {
                 $comment_form = \Forms\Comment::get_prepared_data($comment_form);
                 $comment_form['article'] = $index;
+                $comment_form['user'] = $this->current_user['id'];
                 $comments = new \Models\Comment();
                 $comments->insert($comment_form);
                 \Helpers\redirect('/' . $index . \Helpers\get_GET_params(['page', 'filter', 'ref']));
             }
         } else 
             $comment_form = \Forms\Comment::get_initial_data();
-        $users = new \Models\User();
-        $users->select('*', NULL, '', NULL, 'name');
         $artics = new \Models\Artic();
         $artic = $artics->get_or_404($index, 'articles.id', 'articles.id, title, ' .
-            'description, filename, uploaded, users.name AS user_name, ' .
+            'description, filename, uploaded, users.id AS user_id, users.name AS user_name, ' .
             'categories.name AS cat_name, categories.slug, ' .
             '(SELECT COUNT(*) FROM comments WHERE ' .
             'comments.article = articles.id) AS comment_count',
@@ -63,8 +71,8 @@ class Articles extends BaseController {
             $w = 'uploaded DESC';
         $comments = new \Models\Comment();
         $comments->select('comments.id, content, users.name AS user_name, ' .
-            'uploaded', ['users'], 'article = ?', [$index], $w);
-        $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'comment' => $comments, 'form' => $comment_form, 'users' => $users, 'save' => $s];
+            'uploaded, users.id AS user_id',  ['users'], 'article = ?', [$index], $w);
+        $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'comment' => $comments, 'form' => $comment_form, 'save' => $s];
         $this->render('item', $ctx);
     }
 
@@ -120,7 +128,7 @@ class Articles extends BaseController {
         $artics->select('articles.id, title, uploaded, ' . 
             'users.name AS user_name, ' . 
             '(SELECT COUNT(*) FROM comments WHERE ' .
-            'comments.article = articles.id) AS comment_count', 
+            'comments.article = articles.id) AS comment_count, articles.user', 
             ['users'], $w, $p, '',
             $paginator->first_record_num, \Settings\RECORD_ON_PAGE);
         $ctx = ['user' => $use, 'artic' => $artics, 'paginator' => $paginator];
@@ -128,6 +136,8 @@ class Articles extends BaseController {
     }
 
     function add(string $username) {
+        if (!$this->current_user)
+            throw new \Page403Exception();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $picture_form = \Forms\Picture::get_normalized_data($_POST);
             if (!isset($picture_form['__errors'])) {
@@ -148,6 +158,7 @@ class Articles extends BaseController {
     }
 
     function edit(int $index, string $username) {
+        $this->check_user($index);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $picture_form = \Forms\Picture::get_normalized_data($_POST);
             if (!isset($picture_form['__errors'])) {
@@ -171,6 +182,7 @@ class Articles extends BaseController {
     }
 
     function delete(int $index, string $username) {
+        $this->check_user($index);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $articles = new \Models\Artic();
             $articles->delete($index);

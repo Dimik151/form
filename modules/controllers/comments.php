@@ -4,7 +4,15 @@ namespace Controllers;
 
 class Comments extends BaseController {
 
+    private function check_user(int $comment_index) {
+        $comments = new \Models\Comment();
+        $comment = $comments->get_or_404($comment_index, 'id', 'user');
+        if (!($this->current_user && ($this->current_user['id'] == $comment['user'] || $this->current_user['admin'])))
+            throw new \Page403Exception();
+    }
+
     function edit(int $article_index, int $comment_index) {
+        $this->check_user($comment_index);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $comment_form = \Forms\Comment::get_normalized_data($_POST);
             if (!isset($comment_form['__errors'])) {
@@ -25,6 +33,7 @@ class Comments extends BaseController {
     }
 
     function delete(int $article_index, int $comment_index) {
+        $this->check_user($comment_index);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $comments = new \Models\Comment();
             $comments->delete($comment_index);

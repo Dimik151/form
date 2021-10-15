@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Страница не найдена</h2>
     <p>Запрошенный интернет-адрес не существует</p>
-    <p><a href="/">На главную</a></p>
+    <p><a class="btn btn-outline-secondary" href="/">На главную</a></p>
 </div>
 
 <?php require \Helpers\get_fragment_path('__footer') ?>

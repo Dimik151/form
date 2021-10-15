@@ -3,6 +3,7 @@
 namespace Controllers;
 
 class Error extends BaseController {
+
     function page404(){
         $this->render('404', []);
     }
@@ -10,5 +11,9 @@ class Error extends BaseController {
     function page503($e){
         $ctx = ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()];
         $this->render('503', $ctx);
+    }
+
+    function page403() {
+        $this->render('403', []);
     }
 }

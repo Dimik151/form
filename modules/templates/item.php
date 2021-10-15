@@ -9,15 +9,18 @@
             <p><?= \Helpers\get_formatted_timestamp($artic['uploaded']) ?></p>
             <p><?= $artic['user_name'] ?></p>
         </div>
-        <div style="display: flex; justify-content: space-between">
-            <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $artic['user_name'] . '/articles/' . $artic['id'] . '/edit' . $gets ?>">Изменить статью</a></p>
-            <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $artic['user_name'] . '/articles/' . $artic['id'] . '/delete' . $gets ?>">Удалить статью</a></p>
-        </div>
+        <?php if ($__current_user && ($__current_user['id'] == $artic['user_id'] || $__current_user['admin'])) { ?>
+            <div style="display: flex; justify-content: space-between">
+                <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $artic['user_name'] . '/articles/' . $artic['id'] . '/edit' . $gets ?>">Изменить статью</a></p>
+                <p><a class="btn btn-outline-secondary" href="<?= '/users/' . $artic['user_name'] . '/articles/' . $artic['id'] . '/delete' . $gets ?>">Удалить статью</a></p>
+            </div>
+        <?php } ?>
     </div>
 </main>
-
-<?php require \Helpers\get_fragment_path('__comment_form') ?>
-<?php $u2 = \Helpers\get_GET_params(['page', 'filter', 'ref']) ?>
+<?php if ($__current_user) { ?>
+    <?php require \Helpers\get_fragment_path('__comment_form') ?>
+    <?php $u2 = \Helpers\get_GET_params(['page', 'filter', 'ref']) ?>
+<?php } ?>
 
 <div class="container">
     <form action="" method="GET">
@@ -35,11 +38,13 @@
         <h3 class="mt-3"><?= $comm['user_name'] ?></h3>
         <p class="lead"><?= $comm['content'] ?></p>
         <p><?= \Helpers\get_formatted_timestamp($comm['uploaded']) ?></p>
-        <?php $u1 = '/' . $artic['id'] . '/comments/' . $comm['id'] ?>
-        <p>
-            <a class="btn btn-primary" href="<?= $u1 . '/edit' . $u2 ?>">Исправить</a>
-            <a class="btn btn-primary" href="<?= $u1 . '/delete' . $u2 ?>">Удалить</a>
-        </p>
+        <?php if ($__current_user && ($__current_user['id'] == $comm['user_id'] || $__current_user['admin'])) { ?>
+            <?php $u1 = '/' . $artic['id'] . '/comments/' . $comm['id'] ?>
+            <p>
+                <a class="btn btn-primary" href="<?= $u1 . '/edit' . $u2 ?>">Исправить</a>
+                <a class="btn btn-primary" href="<?= $u1 . '/delete' . $u2 ?>">Удалить</a>
+            </p>
+        <?php } ?>
         <hr>
     <?php } ?>
 </div>
