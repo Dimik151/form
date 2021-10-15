@@ -2,8 +2,6 @@
 
 namespace Forms;
 
-
-
 class Login extends \Forms\Form {
     protected const FIELDS = [
         'name' => ['type' => 'string'],

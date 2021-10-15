@@ -45,11 +45,11 @@
             <div class="text-end">
                 <?php if ($__current_user) { ?>
                     <a class="btn btn-outline-light me-2" href="/users/<?= $__current_user['name'] ?>"><?= $user_name ?></a>
-                    <a class="btn btn-outline-light me-2" href="/logout">Выйти</a>
+                    <a class="btn btn-warning" href="/logout">Выйти</a>
                 <?php } else { ?>
                     <a class="btn btn-outline-light me-2" href="/login">Войти</a>
+                    <a class="btn btn-warning" href="/register">Регистрация</a>
                 <?php } ?>
-                <button type="button" class="btn btn-warning">Регистрация</button>
             </div>
         </div>
     </div>
