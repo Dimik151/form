@@ -28,5 +28,4 @@ class Register extends \Forms\Form {
         $data['password'] = password_hash($norm_data['password1'], PASSWORD_BCRYPT);
     }
 
-
 }
