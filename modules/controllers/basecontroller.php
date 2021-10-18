@@ -5,6 +5,7 @@ namespace Controllers;
 require_once $base_path . 'modules\helpers.php';
 
 class BaseController {
+    
     public $current_user = NULL;
 
     protected function context_append (array &$context){

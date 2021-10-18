@@ -42,9 +42,19 @@ if (preg_match('/^cats\/(\w+)$/', $request_path, $result) === 1){
     $comment_index = (integer)$result[2];
     $ctr = new \Controllers\Comments();
     $ctr->delete($article_index, $comment_index);
+}else if (preg_match('/^users\/(\w+)\/account\/profile$/', $request_path, $result) === 1){
+    $user_index = (string) $result[1];
+    $ctr = new \Controllers\Account();
+    $ctr->profile($user_index);
 }else if (preg_match('/^users\/(\w+)\/account\/delete$/', $request_path, $result) === 1) {
     $ctr = new \Controllers\Account();
     $ctr->delete($result[1]);
+}else if (preg_match('/^users\/(\w+)\/account\/edit$/', $request_path, $result) === 1) {
+    $ctr = new \Controllers\Account();
+    $ctr->edit($result[1]);
+}else if (preg_match('/^users\/(\w+)\/account\/editpassword$/', $request_path, $result) === 1) {
+    $ctr = new \Controllers\Account();
+    $ctr->editpassword($result[1]);
 }else if ($request_path == 'login') {
     $ctr = new \Controllers\Login();
     $ctr->login();

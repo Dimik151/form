@@ -16,6 +16,6 @@ class User extends \Models\Model {
         $articles2 = new \Models\Artic();
         $articles->select('id', NULL, 'user = ?', [$value]);
         foreach ($articles as $artic)
-            $articles2->delete($articles['id']);
+            $articles2->delete($artic['id']);
     }
 }
