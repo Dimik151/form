@@ -71,4 +71,24 @@ namespace Helpers {
             unlink($file_path);
     }
 
+    function generate_token() : string {
+        if (session_status() != PHP_SESSION_ACTIVE)
+            session_start();
+        $token = bin2hex(random_bytes(32));
+        $_SESSION[$token] = 'anti_csrf';
+        return $token;
+    }
+
+    function check_token (array $form_data) {
+        if (empty($form_data['__token']))
+            throw new \Page403Exception();
+        $token = $form_data['__token'];
+        if (empty($_SESSION[$token]))
+            throw new \Page403Exception();
+        $val = $_SESSION[$token];
+        unset($_SESSION[$token]);
+        if ($val != 'anti_csrf')
+            throw new \Page403Exception();
+    }
+
 }

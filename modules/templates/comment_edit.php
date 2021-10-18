@@ -2,6 +2,7 @@
 
 <div class="container">
     <form class="w-25" method="POST">
+        <input type="hidden" name="__token" value="<?= $form['__token'] ?>">
         <h1 class="mt-5">Правка комментарий</h1>
         <span class="input-group-text">Имя</span>
         <select class="form-select" id="validationCustom04" name="user" required>

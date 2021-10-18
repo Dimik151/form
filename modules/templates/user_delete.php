@@ -3,6 +3,7 @@
 <div class="container">
     <h2>Удаление пользователя</h2>
     <form action="" method="POST">
+        <input type="hidden" name="__token" value="<?= $__token ?>">
         <input type="submit" value="Удалить">
     </form>
 </div>

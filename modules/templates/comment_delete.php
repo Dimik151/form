@@ -2,6 +2,7 @@
 
 <div class="container">
     <form class="w-25" method="POST">
+        <input type="hidden" name="__token" value="<?= $__token ?>">
         <h1 class="mt-5">Удалить комментарий</h1>
         <span class="input-group-text">Имя</span>
         <p><?= $comment['user_name'] ?></p>

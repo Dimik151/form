@@ -3,6 +3,7 @@
 <div class="container">
     <h2>Смена пароля</h2>
     <form class="bigform w-25" method="post" >
+        <input type="hidden" name="__token" value="<?= $form['__token'] ?>">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Новый Пароль</span>
             <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="password1">

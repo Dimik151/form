@@ -23,6 +23,7 @@ class Account extends BaseController {
     function edit(string $username) {
         $this->check_user($username);
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            \Helpers\check_token($_POST);
             $update_form = \Forms\Update::get_normalized_data($_POST);
         if (!isset($update_form['__errors'])) {
             $update_form = \Forms\Update::get_prepared_data($update_form);
@@ -35,6 +36,7 @@ class Account extends BaseController {
             $user = $users->get_or_404($username, 'name');
             $update_form = \Forms\Update::get_initial_data($user);
         }
+        $update_form['__token'] = \Helpers\generate_token();
         $ctx = ['form' => $update_form, 'site_title' => 'Правка профиля', 'user' => $user];
         $this->render('user_edit', $ctx);
     }
@@ -49,9 +51,9 @@ class Account extends BaseController {
             $users->update($pass_form, $username, 'name');
             \Helpers\redirect('/users/' . $username . '/account/profile');
         }
-        }else{
+        }else
             $pass_form = \Forms\Password::get_initial_data();
-        }
+        $pass_form['__token'] = \Helpers\generate_token();
         $ctx = ['form' => $pass_form, 'site_title' => 'Смена пароля'];
         $this->render('user_password', $ctx);
     }
@@ -59,13 +61,14 @@ class Account extends BaseController {
     function delete(string $username) {
         $this->check_user($username);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            \Helpers\check_token($_POST);
             $users = new \Models\User();
             $users->delete($username, 'name');
             unset ($_SESSION['current_name']);
             session_destroy();
             \Helpers\redirect('/');
         }else{
-            $ctx = ['site_title' => 'Удаление пользователя'];
+            $ctx = ['site_title' => 'Удаление пользователя', '__token' => \Helpers\generate_token()];
             $this->render('user_delete', $ctx);
         }
     }

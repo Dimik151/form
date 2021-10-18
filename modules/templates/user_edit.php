@@ -3,6 +3,7 @@
 <div class="container">
     <h2>Правка профиля</h2>
     <form class="bigform w-25" method="post" >
+    <input type="hidden" name="__token" value="<?= $form['__token'] ?>">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Email address</span>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" value="<?=$user['email'] ?>">

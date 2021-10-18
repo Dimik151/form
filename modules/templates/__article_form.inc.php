@@ -1,4 +1,5 @@
 <form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="__token" value="<?= $form['__token'] ?>">
     <label for="picture_category">Категория</label>
     <select name="category" class="form-select" aria-label="Default select example">
         <?php foreach ($categories as $category) { ?>

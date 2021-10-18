@@ -2,8 +2,6 @@
 
 namespace Controllers;
 
-use Models\Model;
-
 class Articles extends BaseController {
 
     private function check_user(int $article_index) {
@@ -38,6 +36,7 @@ class Articles extends BaseController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!$this->current_user)
                 throw new \Page403Exception();
+            \Helpers\check_token($_POST);
             $comment_form = \Forms\Comment::get_normalized_data($_POST);
             if (!isset($comment_form['__errors'])) {
                 $comment_form = \Forms\Comment::get_prepared_data($comment_form);
@@ -49,6 +48,7 @@ class Articles extends BaseController {
             }
         } else 
             $comment_form = \Forms\Comment::get_initial_data();
+        $comment_form['__token'] = \Helpers\generate_token();
         $artics = new \Models\Artic();
         $artic = $artics->get_or_404($index, 'articles.id', 'articles.id, title, ' .
             'description, filename, uploaded, users.id AS user_id, users.name AS user_name, ' .
@@ -87,7 +87,6 @@ class Articles extends BaseController {
             $p[] = $f; 
             $p[] = $f;
         }
-
         $artics = new \Models\Artic();
         $artic_count_rec = $artics->get_record('COUNT(*) AS cnt', NULL, $w, $p);
         $paginator = new \Paginator($artic_count_rec['cnt'], ['filter']);
@@ -121,7 +120,6 @@ class Articles extends BaseController {
             $p[] = $f;
             $p[] = $f;
         }
-
         $artics = new \Models\Artic();
         $artic_count_rec = $artics->get_record('COUNT(*) AS cnt', NULL, $w, $p);
         $paginator = new \Paginator($artic_count_rec['cnt'], ['filter']);
@@ -139,6 +137,7 @@ class Articles extends BaseController {
         if (!$this->current_user)
             throw new \Page403Exception();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            \Helpers\check_token($_POST);
             $picture_form = \Forms\Picture::get_normalized_data($_POST);
             if (!isset($picture_form['__errors'])) {
                 $picture_form = \Forms\Picture::get_prepared_data($picture_form);
@@ -151,6 +150,7 @@ class Articles extends BaseController {
             }
         } else 
             $picture_form = \Forms\Picture::get_initial_data();
+        $picture_form['__token'] = \Helpers\generate_token();
         $categories = new \Models\Category();
         $categories->select();
         $ctx = ['site_title' => 'Добавление изображения', 'username' => $username, 'form' => $picture_form, 'categories' => $categories];
@@ -160,6 +160,7 @@ class Articles extends BaseController {
     function edit(int $index, string $username) {
         $this->check_user($index);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            \Helpers\check_token($_POST);
             $picture_form = \Forms\Picture::get_normalized_data($_POST);
             if (!isset($picture_form['__errors'])) {
                 $picture_form = \Forms\Picture::get_prepared_data($picture_form);
@@ -174,9 +175,9 @@ class Articles extends BaseController {
             $articles = new \Models\Artic();
             $article = $articles->get_or_404($index);
             $picture_form = \Forms\Picture::get_initial_data($article);
+        $picture_form['__token'] = \Helpers\generate_token();
         $categories = new \Models\Category();
         $categories->select();
-        
         $ctx = ['site_title' => 'Редактирование статьи', 'form' => $picture_form, 'categories' => $categories];
         $this->render('article_edit', $ctx);
     }
@@ -184,6 +185,7 @@ class Articles extends BaseController {
     function delete(int $index, string $username) {
         $this->check_user($index);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            \Helpers\check_token($_POST);
             $articles = new \Models\Artic();
             $articles->delete($index);
             \Helpers\redirect('/');
@@ -197,7 +199,7 @@ class Articles extends BaseController {
                 '(SELECT COUNT(*) FROM comments WHERE ' .
                 'comments.article = articles.id) AS comment_count',
                 ['users', 'categories']);
-            $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'users' => $users];
+            $ctx = ['artic' => $artic, 'site_title' => $artic['title'], 'users' => $users, '__token' => \Helpers\generate_token()];
             $this->render('article_delete', $ctx);
         }
     }
